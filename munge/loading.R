@@ -16,15 +16,6 @@
 ## merge three site tables into one big data table called 'SapAll'
 ##
 
-# load our functions
-source('~/Dropbox/phd/r_scripts/functions00.R')
-source('~/Dropbox/phd/r_scripts/function_synth_00.R')
-source('~/Dropbox/phd/r_scripts/functions_moving_avg_00.R')
-source('~/Dropbox/phd/r_scripts/functions_max_min_00.R')
-source('~/Dropbox/phd/r_scripts/functions_date.R')
-source('~/Dropbox/phd/r_scripts/functions_SEI_00.R')
-source('~/Dropbox/phd/r_scripts/fn_ZeroOrigin.R')
-
 Sys.setenv(TZ='Etc/GMT-10') # sets the operating environment timezone. 
 
 time.zone <- "Etc/GMT-10" # Will fix this later
