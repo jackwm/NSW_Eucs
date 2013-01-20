@@ -1,0 +1,5 @@
+"TOA5","Kanga_Sap10A","CR1000","30701","CR1000.Std.18","CPU:UTS_SAP02_Dendro24hrMinMaxHMP45.CR1","35389","Ten_Min_Temp_RH"
+"TIMESTAMP","RECORD","AirTC","RH","e_Sat","e_kPa"
+"TS","RN","Deg C","%","kPa","kPa"
+"","","Smp","Smp","Smp","Smp"
+"2012-07-01 14:40:00",6696,32.25212,52.958,4.823172,2.554255
