@@ -22,6 +22,9 @@
 
 
 # Define which date you want to run the data from:
+
+return
+
 target.dir <- '~/Dropbox/phd/data/Level_1A/2012-11-15'
 target.dir <- '~/Dropbox/phd/data/Level_1A/2012-12-11'
 want.save <- TRUE

@@ -1,13 +1,20 @@
-ChooseData <- function() {
+ChooseData <- function(...) {
+  args <- list(...)
   data <- c(dir('data/'))
-  cnt <- 0
-  for (d in data){
-    cnt <- cnt + 1
-    print(paste(cnt,d,sep=' -- ')) 
+  if (!length(args)>0){
+    cnt <- 0
+    for (d in data){
+      cnt <- cnt + 1
+      print(paste(cnt,d,sep=' -- ')) 
+    }
+    s <- readline('Enter corresponding number for desired data: ')  
+    data.dir <<- paste(getwd(),'data',data[as.numeric(s)],sep='/')
+    eval(cache('data.dir'),envir=.GlobalEnv)
   }
-  s <- readline('Enter corresponding number for desired data: ')  
-  data.dir <- paste(getwd(),'data',data[as.numeric(s)],sep='/')
-  cache('data.dir')
+  else {
+    data.dir <<- paste(getwd(),'data',data[args[[1]]],sep='/')
+    eval(cache('data.dir'),envir=.GlobalEnv)
+  }
   return(data.dir)
 }
 
@@ -31,20 +38,6 @@ TreeInfo <- function(dataframe){
                   stringsAsFactors=FALSE)
   return(result)
 }
-
-#tree.names <- TreeInfo(Sap.All)
-
-# FlagTree <- function(df,tree,start,end){
-#   start <- as.POSIXct(start)
-#   end <- as.POSIXct(end)
-#   sub <- GetTimeInt(df,start,end)
-#   
-#   if (tmax after midday){}
-#   if (tmin before midday){}
-#   if (tmin<tmax){}
-#   
-#   return(flag-df)
-# }
 
 # Calculates the max and min of a tree in a given time frame, we use it in max min per day
 # Could use that to find the max and min between 2 hours, 2 months, 2 days, 40 seconds etc...

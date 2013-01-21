@@ -3,9 +3,6 @@
 # This script provides a function to analyise the moving average of the
 # data and return it as a dataframe of timestamp and moving average
 
-# loading data
-# source.with.encoding('~/Dropbox/phd/r_scripts/loading00.R', encoding='UTF-8') #
-
 require('TTR')
 require('lubridate')
 # You must give that function a data frame and tree (as a string) with no NA's within it.
