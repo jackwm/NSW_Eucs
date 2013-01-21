@@ -13,8 +13,6 @@
 ## 2012-06-26
 ## loads all "SapXXX" .dat files in the wd, saves them as individual objects
 ## while loading, modifies column names in each "SapXXX" object to include the object name, so column names are unique
-## merge three site tables into one big data table called 'SapAll'
-##
 
 Sys.setenv(TZ='Etc/GMT-10') # sets the operating environment timezone. 
 
@@ -22,10 +20,10 @@ time.zone <- "Etc/GMT-10" # Will fix this later
 time.origin <- "1970-01-01 00:00:00"
 
 # setting workding and output directories
-file.dir <- "~/Dropbox/phd/data/Level_1/"
-setwd(file.dir)
+# file.dir <- "~/Dropbox/phd/data/Level_1/"
+# setwd(file.dir)
 
-output.dir <- "~/Dropbox/phd/r_output" 
+# output.dir <- "~/Dropbox/phd/r_output" 
 # We will change the working directory to output.dir later on after loading the data
 
 #Loading groundwater data

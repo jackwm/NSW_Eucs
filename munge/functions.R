@@ -6,6 +6,17 @@
 
 #test <- Sap[Sap$TIMESTAMP<as.POSIXct("2012-02-05 09:50:00") & Sap$TIMESTAMP>as.POSIXct("2012-02-05 09:00:00"),]
 
+ChooseData <- function() {
+  data <- c(dir('data/'))
+  cnt <- 0
+  for (d in data){
+    cnt <- cnt + 1
+    print(paste(cnt,d,sep=' -- ')) 
+  }
+  s <- readline('Enter corresponding number for desired data')
+  print(data[as.numeric(s)])
+}
+
 GetTrees <- function(dataframe) {
   cols <- colnames(dataframe)
   trees <- list()
