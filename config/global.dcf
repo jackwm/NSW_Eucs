@@ -1,6 +1,6 @@
 data_loading: on
 cache_loading: on
-munging: off
+munging: on
 logging: off
 load_libraries: on
 libraries: reshape, plyr, ggplot2, stringr, lubridate
