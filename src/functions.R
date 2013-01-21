@@ -1,11 +1,3 @@
-
-#Sap <- Sap.All
-#Sap[,1] <- as.POSIXct(Sap[,1])
-#rownames(Sap) <- Sap$TIMESTAMP
-#Sap[1,1]
-
-#test <- Sap[Sap$TIMESTAMP<as.POSIXct("2012-02-05 09:50:00") & Sap$TIMESTAMP>as.POSIXct("2012-02-05 09:00:00"),]
-
 ChooseData <- function() {
   data <- c(dir('data/'))
   cnt <- 0
@@ -15,7 +7,8 @@ ChooseData <- function() {
   }
   s <- readline('Enter corresponding number for desired data: ')  
   data.dir <- paste(getwd(),'data',data[as.numeric(s)],sep='/')
-  print(data.dir)
+  cache('data.dir')
+  return(data.dir)
 }
 
 GetTrees <- function(dataframe) {
