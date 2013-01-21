@@ -13,8 +13,9 @@ ChooseData <- function() {
     cnt <- cnt + 1
     print(paste(cnt,d,sep=' -- ')) 
   }
-  s <- readline('Enter corresponding number for desired data')
-  print(data[as.numeric(s)])
+  s <- readline('Enter corresponding number for desired data: ')  
+  data.dir <- paste(getwd(),'data',data[as.numeric(s)],sep='/')
+  print(data.dir)
 }
 
 GetTrees <- function(dataframe) {
