@@ -10,11 +10,10 @@ ChooseData <- function(...) {
     s <- readline('Enter corresponding number for desired data: ')  
     data.dir <<- paste(getwd(),'data',data[as.numeric(s)],sep='/')
     eval(cache('data.dir'),envir=.GlobalEnv)
-  }
-  else {
+  } else
     data.dir <<- paste(getwd(),'data',data[args[[1]]],sep='/')
     eval(cache('data.dir'),envir=.GlobalEnv)
-  }
+  
   return(data.dir)
 }
 
@@ -171,35 +170,6 @@ FlagJumps <- function(df,tree,sens){
   }
   return(bad.data)
 }
-
-
-
-# Output format: list(time1,time2,...)
-
-#test <- MaxMinPerDay(Sap,"2012-02-07 00:00:00",10)
-
-# Not yet functional
-# GenHistPdfPng <- function(data,bins,file.name,title,x,y){
-#   pdf(paste(file.name,"pdf",sep="."))
-#   hist(data, breaks = bins,
-#        xlab = x,
-#        ylab = y,
-#        main = paste("Histogram of", title))
-#   dev.off()
-#   
-#   png(paste(file.name,"png",sep="."),
-#       res = 300,
-#       width = 2400,
-#       height = 2400)
-#   hist(data, breaks = bins,
-#        xlab = x,
-#        ylab = y,
-#        main = paste("Histogram of", title))
-#   dev.off()
-# }
-
-# the following two conversion functions were copied from 'read dendrometer data - site generic.R'
-# check that the first column is column 3 not 4??
 
 millivolts_to_mm <- function(data.frame) {
   for (i in 3:ncol(data.frame)){
