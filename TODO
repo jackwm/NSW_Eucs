@@ -1,0 +1,11 @@
+  -- Give Met data frame columns more meaningful endings, not 'tst', replace with aws
+      # Finding the dataframe with the met data
+      met.id <- grep(x = names(df.list), pattern = "Met")
+
+      # Fix column naming of met station data.
+      met <- df.list[[met.id]]
+      x <- colnames(met)
+      colnames(met) <- sub(pattern='tSt', replacement='', x=x)
+  -- Change all dataframes 'TIMESTAMPS' columns to POSIXct
+  -- Write dataframes to csv after data corrections
+  -- Check cache to see if dataframe exists.
