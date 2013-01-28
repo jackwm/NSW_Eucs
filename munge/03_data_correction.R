@@ -1,6 +1,4 @@
 
-return
-
 # Fix data errors
 ############################################################
 # Error noticed Site 031 Tree 1 row 6785, seems that the device was bumped and there was a sudden...
@@ -199,5 +197,47 @@ plot(error$TIMESTAMP, error[, t.tree], cex = .2,
 u <- c(u, as.POSIXct("2012-03-22 12:00"))
 w <- c(w, t.tree)
 #
+
+# for some reason that dataset has a large negative as the first value. 
+# if it hasn't been removed prior to loading, that if statement will remove it.
+if(met[1, 'AirTC_Avg'] == -96.600000000) {
+  n <- nrow(met)
+  met <- met[2:n, ]
+}
+
+# creating column of saturated vapour pressue (es - kPa) and VPD (D - Pa)
+met$es <- 0.61078 * exp(17.269 * met$AirTC_Avg / (237.3+met$AirTC_Avg))
+met$D <- met$es * (1 - met$RH_Avg / 100)
+
 ############################################################
+
+# fixing up the dataframes
+
+if (want.save == TRUE) {
+  
+  # creating a new folder to save the data to
+  dir.string <- paste('~/Dropbox/phd/r_output_data/', Sys.Date(), '/', sep = "")
+  dir.create(dir.string, showWarnings = FALSE) 
+  setwd(dir.string)
+  #
+  # 
+  # saving CSVs - met data
+  
+  for (nnnn in names(df.list) ) {
+    print(paste('saving', nnnn, '.csv'))
+    write.csv(x = df.list[[nnnn]],
+              file = paste(nnnn, '.csv', sep = ""));
+  }
+  # saving .Rdata
+  file.string <- paste('df.list.Rdata', sep = "_")
+  save(df.list, file = file.string)
+  print(paste(file.string, 'saved'))
+}    
+
+# writing to Rdata, one file for each dataframe    
+
+setwd(wd.backup)
+#}
+#############################################################################  
+#}
 
