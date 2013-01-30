@@ -7,6 +7,6 @@ source('src/functions_SEI.R')
 source('src/functions_pre_processing.R')
 
 if (!exists('data.dir')) {
-  data.dir <- ChooseData(1)
-  print(paste('No selected data directory, selecting earliest:',data.dir))
+  print('No selected data directory, please select a date. Later dates will contain more data')
+  ChooseData()
 }
