@@ -1,3 +1,5 @@
+start <- now()
+
 source('src/functions.R')
 source('src/functions_date.R')
 source('src/functions_max_min.R')
