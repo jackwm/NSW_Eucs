@@ -27,7 +27,7 @@ check[['TRh']] <- regexpr(".{6}(TRh).{2,3}",dir(target.dir)) # four sites with T
 if (!exists('df.list')) {df.list <- list()}
 prog <- 0
 changes.made <- FALSE
-
+print('Compiling csv files')
 for (folder in target.dirs){
   df.name <- str_extract(folder,reg.exp)
   if (exists(df.name)) {
@@ -79,8 +79,9 @@ for (folder in target.dirs){
 }
 # Creating a list of items to throw away after the end of the script
 trash <- c('folder','pb','f','df.name','target.dir','changes.made','target.dirs','no.files','prog','check','reg.exp','df.names')
-if (changes.made) trash <- c(trash,'df','col.names.obj','output.df','junk_length','reg_expr','site.id','target.file','output.list')
-
+if (changes.made) {
+  trash <- c(trash,'df','col.names.obj','output.df','junk_length','reg_expr','site.id','target.file','output.list')
+} else print('All data loaded from cache')
 cache('df.list')
 
 rm(list=trash); rm(trash)
