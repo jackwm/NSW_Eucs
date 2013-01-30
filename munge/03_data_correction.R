@@ -1,3 +1,6 @@
+# Until you work on this Fuji, I'm not going to run let this script run
+
+if (FALSE){
 
 # Fix data errors
 ############################################################
@@ -241,3 +244,4 @@ setwd(wd.backup)
 #############################################################################  
 #}
 
+}
