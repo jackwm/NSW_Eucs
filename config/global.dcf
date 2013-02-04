@@ -6,3 +6,4 @@ load_libraries: on
 libraries: reshape, plyr, ggplot2, stringr, lubridate
 as_factors: on
 data_tables: off
+error_vis: on
