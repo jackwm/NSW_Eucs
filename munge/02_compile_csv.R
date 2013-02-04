@@ -26,9 +26,11 @@ check[['TRh']] <- regexpr(".{6}(TRh).{2,3}",dir(target.dir)) # four sites with T
 
 if (!exists('df.list')) {df.list <- list()}
 prog <- 0
+cnt <- 0
 changes.made <- FALSE
 print('Compiling csv files')
 for (folder in target.dirs){
+  cnt <- cnt + 1
   df.name <- str_extract(folder,reg.exp)
   if (exists(df.name)) {
     prog <- prog + length(dir(folder))
@@ -56,12 +58,22 @@ for (folder in target.dirs){
                          col.names=names(col.names.obj), 
                          as.is = TRUE)
       }
-    colnames(df)[2:3] <- paste(colnames(df)[2:3],'.',sep='')
-    junk_length <- length(strsplit(folder,'')[[1]])-3
-    reg_expr <- paste('.{',as.character(junk_length),'}',sep='')
-    site.id <- gsub(reg_expr,'',folder)
-    colnames(df)[2:ncol(df)] <- paste(colnames(df)[2:ncol(df)],site.id,sep='')
-    output.list[[f]] <- df
+    df$RECORD <- NULL
+    if (check$Met[cnt]==1){
+      colnames(df)[2:ncol(df)] <- paste(colnames(df)[2:ncol(df)],'aws',sep='.')
+      output.list[[f]] <- df
+    }else {
+      if (check$TRh[cnt]==1){
+        site.id <- str_extract(df.names[cnt],'.{3}$')
+        colnames(df)[2:ncol(df)] <- paste(colnames(df)[2:ncol(df)],site.id,sep='.')
+        output.list[[f]] <- df
+      }else{
+        colnames(df)[2] <- paste(colnames(df)[2],'.',sep='')
+        site.id <- str_extract(df.names[cnt],'.{3}$')
+        colnames(df)[2:ncol(df)] <- paste(colnames(df)[2:ncol(df)],site.id,sep='')
+        output.list[[f]] <- df
+      }
+    }
   }
   output.df <- do.call("rbind", output.list)
   # drop non-unique rows
@@ -80,7 +92,7 @@ for (folder in target.dirs){
 # Creating a list of items to throw away after the end of the script
 trash <- c('folder','pb','f','df.name','target.dir','changes.made','target.dirs','no.files','prog','check','reg.exp','df.names')
 if (changes.made) {
-  trash <- c(trash,'df','col.names.obj','output.df','junk_length','reg_expr','site.id','target.file','output.list')
+  trash <- c(trash,'df','col.names.obj','output.df','site.id','target.file','output.list')
 } else print('All data loaded from cache')
 cache('df.list')
 
