@@ -35,10 +35,11 @@ summary(den.siteonsite)
 sapply(FUN= class, X=den.siteonsite)
 head(den.siteonsite)
 
-# calculating the row mean for each timestamp
+# calculating the row (site) mean for each timestamp
 df.sos <- den.siteonsite
 df.sos$Mean <- apply(X=df.sos[2:4], FUN='mean',MARGIN=1 )
 head(df.sos)
+summary(df.sos)
 
 # deleting each individual tree value
 df.sos[,2]<- NULL
@@ -58,7 +59,6 @@ DF2.1$Bearing_degrees <- NULL
 # calculating changes in radius per unit radius
 DF2.1$DBH_mm <- DF2.1$DBH_cm * 10 
 DF2.1$rad_mm <- DF2.1$DBH_mm / 2 
-# divide (tree growth) by (radius in m)
 DF2.1$rad_m <- DF2.1$rad_mm / 1000
 # checking each dataframe to prepare for merger
 head(df.sos)
@@ -80,7 +80,7 @@ site.rbh <- data.frame('Mean_rbh' = as.numeric(site.rbh[1:3]), 'Site' = names(si
 
 df.sos.2 <- merge(as.data.frame(df.sos), as.data.frame(site.rbh), by = c('Site'))
 
-
+# Dividing by the mean radius. 
 x <- df.sos.2
 sapply(x, class)
 x$Mean_rad_per_m <- with(x,
