@@ -1,8 +1,13 @@
 
   # Correcting spikes
   for (n in c(1:nrow(errors))){
-    if (errors[n,'error.type']=='spike'){
-      
+    df.name <- errors[n,'dataframe']
+    tree <- errors[n,'tree']
+    time <- errors[n,'TIMESTAMP']
+    type <- errors[n,'error.type']
+    if (type=='spike'){
+      assign(df.name,SpikeCorrection(get(df.name),tree,time,1))
+      errors[n,'error.fixed'] <- TRUE
     }else print(errors[n,'error.type'])
   }
 
