@@ -19,10 +19,10 @@ for (i in 1:3){
   mol[[i]]$Site <- attr(mol[[i]], 'Site')
   # Making the column names consistent to permit rbind
   colnames(mol[[i]]) <- sub(pattern="[[:punct:]][[:digit:]]{2}[[:alpha:]]", replacement="",x= colnames(mol[[i]]) )
-  # re-running zero-origin
-  mol[[i]] <- ZeroOrigin(mol[[i]])
   # subsetting as per user specification
   mol[[i]] <- mol[[i]][mol[[i]]$TIMESTAMP > spec.s, ]
+  # re-running zero-origin
+  mol[[i]] <- ZeroOrigin(mol[[i]])
   # DF <- DF[DF$TIMESTAMP < spec.e, ]  
 }
 
@@ -47,7 +47,11 @@ df.sos[,2]<- NULL
 df.sos[,2]<- NULL
 df.sos[,2]<- NULL
 
-
+# Converting alphanumeric site labels to depth labels
+x <- df.sos
+x$Site<- as.factor(x$Site)
+levels(x$Site) <- list("9" = "03A", "3" = "03F", "39" = "10A")
+df.sos.1 <- x
 
 ## divide radius by RBH (radius breast height)
 DF2.1 <- tree.info

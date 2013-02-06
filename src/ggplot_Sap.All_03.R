@@ -17,6 +17,7 @@
 # Clarify the keep/drop globoideas option
 # Clarify the adjust/not adjust for radius option
 # Change adjustment for stem radius to BAI
+# * WRITE MY OWN WRAPPER FOR GGSAVE WHICH LOOPS THROUGH THE FILETYPES
 
 
 
@@ -24,7 +25,11 @@
 ###################################################################
 ## input user specifications here
 ###################################################################
-#                                                                 #
+# do you want to save the plots?
+want.save <- FALSE
+# what file types do youw want to save?
+filetypes <- c('.pdf', '.png', '.eps')
+#
 # selecting certain dates
 #spec.s <- as.POSIXct("2012-07-13 00:00:00") 
 #spec.e <- as.POSIXct("2012-07-14")
@@ -244,15 +249,93 @@ print(paste('E. globoidea trees were kept in this plot is ', spec.keep.glob))
 
 
 
-# 3 facets, one facet for each site.
-# UN-ADJUSTED for radius
-l <- ggplot(DF)
+### 3 facets, one facet for each site.
+### UN-ADJUSTED for radius
+# l - my first attempt
+# l2 - my second attempt
+# l2a - colour, too crowded
+# l2b - black and white, best so far. 
+# one method for adjusting x limits - y axis still includes points that aren't plotted
+xlim <- c(as.POSIXct('2012-05-01'), as.POSIXct('2012-10-05'))
+# another method adjusting x limits - y axis will be best
+spec.e <- as.POSIXct('2012-10-05')
+# making a copy dataframe we can cut down as we please
+plot.DF <- DF
+# cutting down the dataframe for plotting
+plot.DF <- plot.DF[plot.DF$TIMESTAMP < spec.e, ]  
+# crucial line to produce a legend in the correct order.
+plot.DF$Depth <- factor(plot.DF$Depth, levels = sort(unique(as.numeric(as.character(plot.DF$Depth)))))
+levels(plot.DF$Depth)
+#
+l <- ggplot(plot.DF)
 l <- l + scale_y_continuous("Relative stem radius (mm)")
 #l <- l + scale_y_log10("log10 Relative stem radius (mm)")
-l <- l + scale_x_datetime("")
-l <- l + facet_grid(. ~ Site) + theme_bw()
-l <- l + geom_point(aes(x = TIMESTAMP, y = Radius, col = Tree), size = 1.2, alpha = 0.8)
+l <- l + scale_x_datetime("", limits = xlim)
+l <- l + facet_grid(Site ~ .) + theme_bw()
+#l <- l + geom_point(aes(x = TIMESTAMP, y = Radius, col = Tree), size = 1.2, alpha = 0.8)
+l <- l + geom_line(aes(x = TIMESTAMP, y = Radius, linetype = Tree), size = 1.0, alpha = 0.8)
 l
+l+stat_smooth(aes(x = TIMESTAMP, y = Radius), method="auto", colour = "red")
+# could not get the mean to work properly
+l + stat_summary(aes(x = TIMESTAMP, y = Radius, group = Site), 
+                 fun.y = 'mean', 
+                 geom = 'line',
+                 colour = 'red')
+#
+## second attempt - putting the aes call up front
+# colour, not faceted
+l2 <- ggplot(plot.DF, 
+            aes(x = TIMESTAMP, y = Radius)) +
+  theme_bw() +
+  scale_y_continuous("Relative stem radius (mm)")
+l2a <- l2 + stat_smooth(aes(group = Site, colour = Depth), size = 2) 
+l2a
+if (want.save == TRUE) {
+  for (ft in filetypes) {
+    fn <- paste(Sys.Date(), "_l2a_", "ggplot_Sap.All_03", ft, sep ="" )
+    ggsave(filename= fn, path="./graphs/", plot=l2a)
+  }
+}
+l2aa <- l2 + stat_smooth(aes(group = Site, colour = Depth), size = 2, method = lm) 
+if (want.save == TRUE) {
+  for (ft in filetypes) {
+    fn <- paste(Sys.Date(), "_l2aa_", "ggplot_Sap.All_03", ft, sep ="" )
+    ggsave(filename= fn, path="./graphs/", plot=l2aa)
+  }
+}
+
+# at this point is OK, but adding individual trees it becomes unreadable
+# could possibly be better if we didn't have to use linetype  to differentiate..
+l2a + geom_line(aes(linetype = Tree, colour = Depth)) 
+# what if we try adding points instead? actually works better
+l2a2 <- l2a + geom_point(aes(colour = Site), size = 0.1)
+if (want.save == TRUE) {
+  for (ft in filetypes) {
+    fn <- paste(Sys.Date(), "_l2a2_", "ggplot_Sap.All_03", ft, sep ="" )
+    ggsave(filename= fn, path="./graphs/", plot = l2a2)
+  }
+}
+#
+## black and white, faceted
+l2b <- ggplot(plot.DF,
+             aes(x = TIMESTAMP, y = Radius))
+l2b <- l2b + 
+  stat_smooth(aes(group = Site), size = 1.5) + 
+  facet_grid(Depth~.) + 
+  geom_line(aes(group=Tree)) +
+  theme_bw() +
+  scale_y_continuous("Relative stem radius (mm)")
+l2b
+#
+if (want.save == TRUE) {
+  for (ft in filetypes) {
+  fn <- paste(Sys.Date(), "_l2b_", "ggplot_Sap.All_03", ft, sep ="" )
+  ggsave(filename= fn, path="./graphs/", plot = l2b)
+  }
+}
+# combining the above for comparison
+require(gridExtra)
+grid.arrange(l2a, l2a2, l2b, ncol=2) 
 
 # 3 facets 
 # adjusted for radius
@@ -267,6 +350,7 @@ l <- l + facet_grid(Site ~ .) + theme_bw()
 l <- l + geom_line(aes(lineytype = Tree))
 #l <- l + geom_abline(lm(temp$Radius ~ temp$TIMESTAMP), col = temp$Tree)
 l
+source(file="../src/calc.site.mean.onebyone.R")
  l +  geom_line(data= DF.av,
                mapping=aes(x = TIMESTAMP, y = Mean_rad_per_m),
                colour = "red",
