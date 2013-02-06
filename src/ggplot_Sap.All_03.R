@@ -68,6 +68,22 @@ c <- ".png"                                           #
 c <- ".eps"
 #######################################################
 
+########################################################
+# a function to use when saving plots, a wrapper for ggsave.
+# sets the correct resolution and dpi for .pngs 
+# constructs a filename from the plot.object and script.name
+MyGgsave <- function(plot.object, script.name){
+  if (want.save == TRUE) {
+    for (ft in filetypes) {
+      fn <- paste(Sys.Date(), plot.object, script.name, ft, sep ="" )
+      if (ft = .png){ ggsave(filename = fn, path = './graphs/', plot = plot.object,
+                             width=14, units='cm',dpi=300)}
+      ggsave(filename= fn, path="./graphs/", plot=l2aa)
+    }
+  }
+}  
+#######################################################
+
 ## grabbing the data from the cache
 # loading the Rdata files
 setwd('./cache/')
