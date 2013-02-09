@@ -76,7 +76,7 @@ MyGgsave <- function(plot.object, script.name){
   if (want.save == TRUE) {
     for (ft in filetypes) {
       fn <- paste(Sys.Date(), plot.object, script.name, ft, sep ="" )
-      if (ft = .png){ ggsave(filename = fn, path = './graphs/', plot = plot.object,
+      if (ft == .png){ ggsave(filename = fn, path = './graphs/', plot = plot.object,
                              width=14, units='cm',dpi=300)}
       ggsave(filename= fn, path="./graphs/", plot=l2aa)
     }
@@ -306,6 +306,10 @@ l2 <- ggplot(plot.DF,
   scale_y_continuous("Relative stem radius (mm)")
 l2a <- l2 + stat_smooth(aes(group = Site, colour = Depth), size = 2) 
 l2a
+MyGgsave(l2a, ggplot_Sap.All_03.R)
+ggsave(filename='l2a_14cm_300dpi_scale_0.7.pdf',plot=l2a,path='./graphs/',
+       units = 'cm', width = 14, scale = 0.7)
+
 if (want.save == TRUE) {
   for (ft in filetypes) {
     fn <- paste(Sys.Date(), "_l2a_", "ggplot_Sap.All_03", ft, sep ="" )
