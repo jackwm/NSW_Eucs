@@ -7,9 +7,14 @@ if (changes.made){
   }
   rm(df)
 }
+# Visualise errors, if set to on in config
+if (config$error_vis=='on'){
+  DisplayErrors(errors)
+}
+
 # Calculating time taken
 time.taken <- round(as.numeric(difftime(now(),start,units='secs')),2)
 print(paste('Time taken to load:',time.taken,'secs'))
 
 # Cleaning up unused variables
-rm(start,time.taken,cnt)
+rm(start,time.taken,cnt,changes.made)
