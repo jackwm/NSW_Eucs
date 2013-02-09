@@ -48,7 +48,7 @@ spec.keep.glob <- FALSE
 #                                                                 #
 # select where to save output
 output.dir <- '~/Dropbox/phd/r_output/'
-output.dir <- './graphs/'
+output.dir <- 'graphs/'
 ###################################################################
 
 #######################################################
@@ -127,15 +127,11 @@ if (length(my.obj.list) == 3) {
   
 # adjusting by radius at breast height.
   # loading the tree information
-  temp <- getwd()
-  setwd('~/Dropbox/phd/Kangaloon/data_kangaloon_human_collected/')
   
-  tree.info <- read.csv("fujiwara_tree_inventory.csv", skip = 4, header = TRUE)  
+  tree.info <- read.csv("data/fujiwara_tree_inventory.csv", skip = 4, header = TRUE)
   tree.info$Tree <- substr(tree.info$Tree, start = 6, stop = 6)
   tree.info$Tree <- as.factor(tree.info$Tree)
   tree.info$Port <- as.factor(tree.info$Port  )
-  setwd(temp)
-  rm(temp)
 
   # merging tree dbh info with timeseries data
   TS1 <- DF
@@ -292,7 +288,7 @@ m2 <- m2 + scale_y_continuous(name = expression("Relative stem radius, \n adjust
 #m2 <- m2 + geom_point(aes(x = TIMESTAMP, y = Radius), size = .5, alpha = 1/2)
 m2 <- m2 + geom_line(aes(x = TIMESTAMP, y = Radius))
 m2 <- m2 + theme(axis.text.x = element_text(angle =-90, hjust =0, vjust =0 ))
-m2
+
 a <- "ggplot_sapall_12_facets_"
 fn <- paste(a, "D_", b, c, sep = "")
 ggsave(filename = fn, plot = m2, path="./graphs/", scale = 0.6)
@@ -302,7 +298,7 @@ ggsave(filename = fn, plot = m2, path="./graphs/", scale = 0.6)
 m <- ggplot(DF)
 m <- m + facet_grid(Site ~ Tree) + theme_bw()
 m <- m + scale_x_datetime(name = "")
-m <- m + scale_y_continuous(name = "Relative stem radius (mm)", limits = c(-1.5, 1.5.))
+m <- m + scale_y_continuous(name = "Relative stem radius (mm)", limits = c(-1.5, 1.5))
 m <- m + geom_point(aes(x = TIMESTAMP, y = Radius), size = 1, alpha = 1)
 m <- m + theme(axis.text.x = element_text(angle =-90, hjust =0, vjust =0 ))
 m

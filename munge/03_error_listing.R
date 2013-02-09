@@ -65,18 +65,12 @@ e.df <- c(e.df,'Den03F')
 e.type <- c(e.type,'mixed')
 e.fixed <- c(e.fixed,FALSE)
 # 12 - error mixed
-e.time <- c(e.time, as.POSIXct("2012-03-22 15:30"))
-e.tree <- c(e.tree, 'Dendro_Avg.2.10A')
-e.df <- c(e.df,'Den10A')
-e.type <- c(e.type,'mixed')
-e.fixed <- c(e.fixed,FALSE)
-# 13 - error mixed
 e.time <- c(e.time, as.POSIXct("2012-03-22 13:40"))
 e.tree <- c(e.tree, 'Dendro_Avg.4.03F')
 e.df <- c(e.df,'Den03F')
 e.type <- c(e.type,'mixed')
 e.fixed <- c(e.fixed,FALSE)
-# 14 - error mixed
+# 13 - error mixed
 e.time <- c(e.time, as.POSIXct("2012-08-08 12:00"))
 e.tree <- c(e.tree, 'Dendro_Avg.4.03F')
 e.df <- c(e.df,'Den03F')
