@@ -2,6 +2,7 @@
 .Rhistory
 .Rproj.user
 .RData
+.RDataTmp
 data
 csv
 csv/*
