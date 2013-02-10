@@ -1,14 +1,23 @@
 
-  # Correcting spikes
   for (n in c(1:nrow(errors))){
     df.name <- errors[n,'dataframe']
     tree <- errors[n,'tree']
     time <- errors[n,'TIMESTAMP']
     type <- errors[n,'error.type']
+    # Correcting spikes
     if (type=='spike'){
       assign(df.name,SpikeCorrection(get(df.name),tree,time,1))
       errors[n,'error.fixed'] <- TRUE
-    }else print(errors[n,'error.type'])
+    }
+    # Correcting mixed
+    if (type=='mixed'){
+      df <- get(df.name)
+      diff <- df[df$TIMESTAMP==(time-60*10),tree] - df[df$TIMESTAMP==(time+60*10),tree]
+      df[df$TIMESTAMP<time,tree] <- df[df$TIMESTAMP<time,tree] - diff
+      df <- SpikeCorrection(df,tree,time,1)
+      assign(df.name,df)
+      errors[n,'error.fixed'] <- TRUE
+    }
   }
 
   if (FALSE) {
@@ -57,6 +66,7 @@
     # Sap.All[1:11862,13]<-Sap.All[1:11862,13]+correction
     # This was a tree swap. Need to make a new column and move the preceeding data there. 
     ############################################################
+    # cleaning up
+    rm(i,nam,my.col.names.obj,MyReadFunc,file.dir,my.file.list,my.obj.list)
   }
-  # cleaning up
-  rm(i,nam,my.col.names.obj,MyReadFunc,file.dir,my.file.list,my.obj.list)
+  rm(df,diff,time,tree,n,type,df.name)

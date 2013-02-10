@@ -90,7 +90,7 @@ for (folder in target.dirs){
   df.list[[df.name]] <- output.df
 }
 # Creating a list of items to throw away after the end of the script
-trash <- c('folder','pb','f','df.name','target.dir','changes.made','target.dirs','no.files','prog','check','reg.exp','df.names')
+trash <- c('folder','pb','f','df.name','target.dir','target.dirs','no.files','prog','check','reg.exp','df.names')
 if (changes.made) {
   trash <- c(trash,'df','col.names.obj','output.df','site.id','target.file','output.list')
 } else print('All data loaded from cache')
