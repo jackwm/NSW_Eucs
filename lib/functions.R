@@ -171,8 +171,8 @@ FlagJumps <- function(df,tree,sens){
   return(bad.data)
 }
 
-millivolts_to_mm <- function(data.frame) {
-  for (i in 3:ncol(data.frame)){
+MillivoltsToMillimeters <- function(data.frame, start.col, end.col) {
+  for (i in start.col:end.col){
     data.frame[ ,i] <- data.frame[ ,i]*4*10^(-3)
   }
   return(data.frame)
