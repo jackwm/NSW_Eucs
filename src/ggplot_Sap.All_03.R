@@ -76,9 +76,18 @@ MyGgsave <- function(plot.object, script.name){
   if (want.save == TRUE) {
     for (ft in filetypes) {
       fn <- paste(Sys.Date(), plot.object, script.name, ft, sep ="" )
-      if (ft == .png){ ggsave(filename = fn, path = './graphs/', plot = plot.object,
-                             width=14, units='cm',dpi=300)}
-      ggsave(filename= fn, path="./graphs/", plot=l2aa)
+      if (ft == .png){ 
+        ggsave(filename = fn, path = './graphs/', plot = plot.object,
+               width=14, units='cm',dpi=300)
+      }
+      if (ft == .eps){
+        ggsave(filename = fn, path = './graphs/', plot = plot.object,
+               width = 14, units = 'cm', scale = 0.7)
+      }
+      if (ft == .pdf){
+        ggsave(filename = fn, path = './graphs/', plot = plot.object,
+               width = 14, units = 'cm', scale = 0.7)
+      }
     }
   }
 }  
@@ -230,6 +239,27 @@ sapply(DF, class)
 ###################################################################################
 setwd(output.dir)
 
+# Recreating the plot from page 56 Singer & Willett - Applied Longitudinal Data Analysis
+# Shows a smoothed line for each individual
+#  and one smoothed line for all the data
+# Excluding E. glob
+# Divided by radius at breast height 
+if (spec.keep.glob == FALSE) { 
+  plot.df <- TS4
+  plot.df$Individual <- paste(as.character(plot.df$Tree), as.character(plot.df$Site), sep = ".")
+  my.ylab <- "Relative stem radius\nper unit radius at breast height (mm/m)"
+  my.xlab <- "Time"
+  j <- ggplot(plot.df, aes(x = TIMESTAMP, y = Growth_per_m)) +
+    theme_bw() +
+    stat_smooth(colour = 'black', size = 1.5) + 
+    stat_smooth(aes(group = as.factor(Individual)), colour = 'black', size = 0.25) +
+    scale_y_continuous(my.ylab)+
+    scale_x_datetime(my.xlab)
+  j
+  MyGgsave <- function(j, ggplot_Sap.All_03.R){
+}
+
+my.gg
 
 # one trace per site - the 'mean' series
 # unadjusted for radius breast height
