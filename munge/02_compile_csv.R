@@ -16,7 +16,8 @@ for (folder in target.dirs){
 }
 print('FUJI LOOK HERE')
 print(no.files)
-pb <- txtProgressBar(min=0,max=no.files)
+
+#pb <- txtProgressBar(min=0,max=no.files)
 
 reg.exp <- '[^_]{5,6}$'
 df.names <- str_extract(target.dirs,reg.exp)
@@ -36,7 +37,7 @@ for (folder in target.dirs){
   df.name <- str_extract(folder,reg.exp)
   if (exists(df.name)) {
     prog <- prog + length(dir(folder))
-    setTxtProgressBar(pb,prog)
+    #setTxtProgressBar(pb,prog)
     next
   }
   changes.made <- TRUE
@@ -44,7 +45,7 @@ for (folder in target.dirs){
   # loop over files within the working directory
   for (f in dir(folder) ) {
     prog <- prog + 1
-    setTxtProgressBar(pb,prog)
+    #setTxtProgressBar(pb,prog)
     target.file <- paste(folder,f,sep='/')
     # reading in the column headers, start by skipping 1
     col.names.obj <- read.csv(file = target.file, skip = 1, header = TRUE) # need to change this to skip 1.
@@ -93,7 +94,7 @@ for (folder in target.dirs){
   df.list[[df.name]] <- output.df
 }
 # Creating a list of items to throw away after the end of the script
-trash <- c('folder','pb','f','df.name','target.dir','target.dirs','no.files','prog','check','reg.exp','df.names')
+trash <- c('folder','f','df.name','target.dir','target.dirs','no.files','prog','check','reg.exp','df.names')
 if (changes.made) {
   trash <- c(trash,'df','col.names.obj','output.df','site.id','target.file','output.list')
 } else print('All data loaded from cache')
