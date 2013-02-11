@@ -14,6 +14,8 @@ no.files <- 0;
 for (folder in target.dirs){
   for (f in dir(folder)) {no.files <- no.files + 1}
 }
+print('FUJI LOOK HERE')
+print('no.files')
 pb <- txtProgressBar(min=0,max=no.files)
 
 reg.exp <- '[^_]{5,6}$'
