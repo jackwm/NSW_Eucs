@@ -411,22 +411,6 @@ dt <- data.table(TS4)
 dt[,list(mean=mean(Growth_per_m),by=group]
                             
 
-# 12 facets, one for each tree.  ADJUSTED for stem radius
-#my.ylab <- expression("Something per something with superscript (um mm" ^-1*") text at the end")
-
-m2 <- ggplot(TS4)
-m2 <- m2 + facet_grid(Site ~ Tree) + theme_bw()
-m2 <- m2 + scale_x_datetime(name = "")
-m2 <- m2 + scale_y_continuous(name = expression("Relative stem radius, \n adjusted for RBH (mm m" ^-1*")") )# ,
-#limits = c(-1, 6))
-#m2 <- m2 + geom_point(aes(x = TIMESTAMP, y = Radius), size = .5, alpha = 1/2)
-m2 <- m2 + geom_line(aes(x = TIMESTAMP, y = Radius))
-m2 <- m2 + theme(axis.text.x = element_text(angle =-90, hjust =0, vjust =0 ))
-
-a <- "ggplot_sapall_12_facets_"
-fn <- paste(a, "D_", b, c, sep = "")
-ggsave(filename = fn, plot = m2, path="./graphs/", scale = 0.6)
-
 # 12 facets, one for each tree. - NOT adjusted for stem radius
 # DF.sub <-DF[DF$TIMESTAMP>as.POSIXct('2012-11-26') & DF$Tree == 4 & DF$Site == 39 , ] 
 m <- ggplot(DF)
@@ -448,10 +432,34 @@ n <- n + theme_bw()
 n <- n + geom_line(aes(x = TIMESTAMP, y = Radius, linetype = paste(Depth,Tree)), alpha = 7/8)
 n
 
+# 12 facets, one for each tree.  ADJUSTED for stem radius
+#my.ylab <- expression("Something per something with superscript (um mm" ^-1*") text at the end")
+  
+m2 <- ggplot(TS4)
+m2 <- m2 + facet_grid(Site ~ Tree) + theme_bw()
+m2 <- m2 + scale_x_datetime(name = "")
+m2 <- m2 + scale_y_continuous(name = expression("Relative stem radius, \n adjusted for RBH (mm m" ^-1*")") )# ,
+#limits = c(-1, 6))
+#m2 <- m2 + geom_point(aes(x = TIMESTAMP, y = Radius), size = .5, alpha = 1/2)
+m2 <- m2 + geom_line(aes(x = TIMESTAMP, y = Radius))
+m2 <- m2 + theme(axis.text.x = element_text(angle =-90, hjust =0, vjust =0 ))
 
+a <- "ggplot_sapall_12_facets_"
+fn <- paste(a, "D_", b, c, sep = "")
+ggsave(filename = fn, plot = m2, path="./graphs/", scale = 0.6)
 
+# 12 facets, one for each tree. 
+  # Adjusted for stem radius. 
+  # Showing smoothed curves. 
+plot.o <- ggplot(TS4, aes(x = TIMESTAMP, y = Growth_per_m)) +
+    theme_bw() +
+    facet_grid(Site ~ Tree)
+( plot.o.1 <- plot.o +  stat_smooth(method = 'lm', colour = 'black' ) )
+( plot.o.2 <- plot.o + stat_smooth(colour = 'black') )
+
+  
+  
 ## for print
-
 
 # last plots created were named 
 #a <- 'mean site series 01 - y mm - incl glob LoRes '
