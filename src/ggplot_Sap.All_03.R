@@ -19,10 +19,7 @@
 # Change adjustment for stem radius to BAI
 # * WRITE MY OWN WRAPPER FOR GGSAVE WHICH LOOPS THROUGH THE FILETYPES
 
-# Variable explanation
-# DF  - Tall data, not adjusted for RBH
-# TS3 - Tall data, adjusted for RBH, with globoidea's includeded
-# TS4 - Tall data, adjusted for RBH, with globoidea's excluded
+
 
 
 ###################################################################
@@ -439,7 +436,7 @@ n
 m2 <- ggplot(TS4)
 m2 <- m2 + facet_grid(Site ~ Tree) + theme_bw()
 m2 <- m2 + scale_x_datetime(name = "")
-m2 <- m2 + scale_y_continuous(name = expression("Relative stem radius, \n adjusted for RBH (mm m" ^-1*")") )# ,
+m2 <- m2 + scale_y_continuous(name = expression("Relative stem radius, \n adjusted for RBH (mm m" ^{-1}*")") )# ,
 #limits = c(-1, 6))
 #m2 <- m2 + geom_point(aes(x = TIMESTAMP, y = Radius), size = .5, alpha = 1/2)
 m2 <- m2 + geom_line(aes(x = TIMESTAMP, y = Radius))
