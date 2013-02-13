@@ -19,7 +19,10 @@
 # Change adjustment for stem radius to BAI
 # * WRITE MY OWN WRAPPER FOR GGSAVE WHICH LOOPS THROUGH THE FILETYPES
 
-
+# Variable explanation
+# DF  - Tall data, not adjusted for RBH
+# TS3 - Tall data, adjusted for RBH, with globoidea's includeded
+# TS4 - Tall data, adjusted for RBH, with globoidea's excluded
 
 
 ###################################################################
@@ -52,7 +55,6 @@ spec.keep.glob <- TRUE
 spec.keep.glob <- FALSE
 #                                                                 #
 # select where to save output
-output.dir <- '~/Dropbox/phd/r_output/'
 output.dir <- 'graphs/'
 ###################################################################
 
@@ -93,13 +95,16 @@ MyGgsave <- function(plot.object, script.name){
 }  
 #######################################################
 
-## grabbing the data from the cache
-# loading the Rdata files
-setwd('./cache/')
-file.list <- dir(pattern="Den")
-for (i in file.list) load(i)
-setwd("..")
-getwd()
+if(FALSE){
+  ## grabbing the data from the cache
+  # loading the Rdata files
+  setwd('./cache/')
+  file.list <- dir(pattern="Den")
+  for (i in file.list) load(i)
+  setwd("..")
+  getwd()
+  }
+
 # combining the dataframes into a list
 my.obj.list <- list(Den03F, Den03A, Den10A)
 
@@ -202,12 +207,8 @@ TS3$Depth <- TS3$Site
 TS4 <- TS3[ -c(which(TS3$Site_alpha =='10A' & TS3$Tree == 4)) , ]
 TS4 <- TS4[ -c(which(TS3$Site_alpha =='03F' & TS3$Tree == 4)) , ]
 
-head(DF)
-head(TS3)
-head(TS4)
-
 # getting rid of some dataframs to clear up memory
-rm(TS1, TS3)
+rm(TS1)
 rm(Sap03A, Sap03F, Sap03J, Sap10A)
 rm(TRh03A, TRh03F, TRh03J, TRh10A)
 rm(DF2)
@@ -247,7 +248,7 @@ setwd(output.dir)
 if (spec.keep.glob == FALSE) { 
   plot.df <- TS4
   plot.df$Individual <- paste(as.character(plot.df$Tree), as.character(plot.df$Site), sep = ".")
-  my.ylab <- "Relative stem radius\nper unit radius at breast height (mm/m)"
+  my.ylab <- expression("Relative stem radius, adjusted for \n radius at breast height (mm m" ^{-1}*")")
   my.xlab <- "Time"
   j <- ggplot(plot.df, aes(x = TIMESTAMP, y = Growth_per_m)) +
     theme_bw() +
@@ -255,11 +256,11 @@ if (spec.keep.glob == FALSE) {
     stat_smooth(aes(group = as.factor(Individual)), colour = 'black', size = 0.25) +
     scale_y_continuous(my.ylab)+
     scale_x_datetime(my.xlab)
-  j
-  MyGgsave <- function(j, ggplot_Sap.All_03.R){
+  j  
+  if (want.save ==TRUE) MyGgsave(j, ggplot_Sap.All_03.R)
 }
 
-my.gg
+
 
 # one trace per site - the 'mean' series
 # unadjusted for radius breast height
