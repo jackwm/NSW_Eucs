@@ -1,15 +1,15 @@
 #03_convert_units
 # convert from mV to mm
 
-# Gather names of dataframes
-x <- names(df.list)
-# Find those that are dendrometer measurements
-y <- str_extract(x, 'den')
+# find those dataframes which are dendrometer ones
+dfs <- ls(pattern="Den{1}")
 
-for (i in y){
-  df.list[[i]] <- MillivoltsToMillimeters(df.list[[i]], 3, 6)
+# apply conversion function to each of those
+for (i in dfs){
+  x <- MillivoltsToMillimeters(get(i), 3, 6)
+  assign(i, x)
   # arguments are: <dataframe>, <first data column>, <last data column> 
 }
 
 # Tidy up
-rm(x,y)
+rm(x)
