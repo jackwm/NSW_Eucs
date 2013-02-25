@@ -55,6 +55,9 @@ DF <- den.wide
 DF <- DF[DF$TIMESTAMP > spec.s, ]
 #DF <- DF[DF$TIMESTAMP < spec.e, ]  
 
+# Trim the dataset so that there are no missing values. 
+if (FALSE) DF <- na.contiguous(DF)
+
 # re-running zero-origin
 DF <- ZeroOrigin(DF)
 
@@ -149,10 +152,11 @@ if (spec.keep.glob == TRUE) {plot.df <- TS3;
 if (spec.keep.glob == FALSE) {plot.df <- TS4;
                               my.ylab <- expression("Relative stem radius, adjusted for \n radius at breast height (mm m" ^{-1}*")")}
 
+plot.df$Individual <- paste(as.character(plot.df$Tree), as.character(plot.df$Site), sep = ".")
+
 # Recreating the plot from page 56 Singer & Willett - Applied Longitudinal Data Analysis
 # Shows a smoothed line for each individual
 #  and one smoothed line for all the data
-  plot.df$Individual <- paste(as.character(plot.df$Tree), as.character(plot.df$Site), sep = ".")
   my.xlab <- "Time"
   j <- ggplot(plot.df, aes(x = TIMESTAMP, y = Radius)) +
     theme_bw() +
