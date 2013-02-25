@@ -3,15 +3,15 @@ if (model.df$Individual == NULL)
   stop('Error: The individual/specimen ID column has not been created. Go back one script and search: plot.df$Individual <- ')
 
 # Model specification (linear). 
-mod1.0 <- glm(formula = Radius ~ TIMESTAMP + Site, data= model.df)
-mod1.1 <- aov(formula = Radius ~ TIMESTAMP + Site + Individual, data = model.df)
-summary(mod1)
+mod1.0 <- glm(formula = Radius ~ TIMESTAMP * Site, data = model.df)
+mod1.1 <- aov(formula = Radius ~ TIMESTAMP * Site * Individual, data = model.df)
+anova(mod1.0)
 anova(mod1.1)
 
 if (FALSE) model.df <- subset(model.df, TIMESTAMP < as.POSIXct('2012-10-01'))
-mod1.0a <- lm(formula = Radius ~ TIMESTAMP, subset = Site == '3', data= model.df)
-mod1.0b <- lm(formula = Radius ~ TIMESTAMP, subset = Site == '9', data= model.df)
-mod1.0c <- lm(formula = Radius ~ TIMESTAMP, subset = Site == '39', data= model.df)
+mod1.0a <- lm(formula = Radius ~ TIMESTAMP, subset = Site == '3',  data = model.df)
+mod1.0b <- lm(formula = Radius ~ TIMESTAMP, subset = Site == '9',  data = model.df)
+mod1.0c <- lm(formula = Radius ~ TIMESTAMP, subset = Site == '39', data = model.df)
 
 # Comparing linear models.
 anova(mod1.0a, mod1.0c)
@@ -25,11 +25,12 @@ if (FALSE){
     stop('Error: lme4 could not be loaded')
   (mod2.0 <- lmer(formula = Radius ~ TIMESTAMP + (1 | Site), data = model.df))
   (mod3.0 <- lmer(formula = Radius ~ TIMESTAMP + Site +  (1 | Individual), data = model.df))
-  (mod4.0 <- lmer(formula = Radius ~ TIMESTAMP * Site +  (1 | Individual), data = model.df))
+  (mod4.0 <- lmer(formula = Radius ~ TIMESTAMP * Site *  (1 | Individual), data = model.df))
   
   # Comparing nonlinear models.
   anova(mod2.0, mod3.0)
   summary(mod3)
+  anova(mod2.0, mod3.0, mod4.0)
 }
 
 # Plotting
