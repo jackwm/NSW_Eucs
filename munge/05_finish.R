@@ -1,4 +1,7 @@
 # writing all the data frames to csv's and storing in csv folder
+if (grep(pattern='csv', x=dir())  == 0 )
+  dir.create(path='csv/')
+
 cnt <- 0;
 if (changes.made){
   for (df in df.list){
