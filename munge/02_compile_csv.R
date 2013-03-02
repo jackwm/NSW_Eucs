@@ -4,7 +4,7 @@ check <- regexpr("Kanga", dir(target.dir))
 
 # Checking the folder to see if it has the expected structure
 if(max(check)==-1){
-  print(paste("Expected Folder starting with 'Kanga' None were found in",getwd()))
+  stop(paste("Expected Folder starting with 'Kanga' None were found in",getwd()))
   } else {
   target.dirs <- paste(target.dir,dir(target.dir)[check>0],sep='/')
 }
