@@ -24,6 +24,7 @@ check <- list()
 check[['Den']] <- regexpr(".{6}(Den).{2,3}",dir(target.dir)) # three sites with den
 check[['Met']] <- regexpr(".{6}(Met).{2,3}",dir(target.dir)) # one site with Met
 check[['TRh']] <- regexpr(".{6}(TRh).{2,3}",dir(target.dir)) # four sites with TRh
+check[['Sap']] <- regexpr(".{6}(Sap).{2,3}",dir(target.dir)) # four sites with TRh
 
 if (!exists('df.list')) {df.list <- list()}
 prog <- 0
@@ -41,6 +42,7 @@ for (folder in target.dirs){
   changes.made <- TRUE
   output.list <- list()
   # loop over files within the working directory
+  if (check$Sap[cnt]==1) next
   for (f in dir(folder) ) {
     prog <- prog + 1
     setTxtProgressBar(pb,prog)
