@@ -29,12 +29,13 @@ CalcSEI <- function(maxmin,tree){
 # DF <- Sap.All
 
 CalcSEIdf <- function(DF){
+  trees <- GetTrees(DF)
   SEI.list <- trees
   names(SEI.list) <- trees
   for (i in trees) SEI.list[[i]] <- NA
   
   for (t in trees) {
-    mmpd <- MaxMin.SMA(DF,t,with.plot=FALSE,compare=FALSE)
+    mmpd <- MaxMin.SMA(DF,t,with.plot=FALSE)
     SEI.list[[t]] <- CalcSEI(mmpd, t)
   }
   

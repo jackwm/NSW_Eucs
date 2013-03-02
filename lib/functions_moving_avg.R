@@ -97,7 +97,7 @@ MaxMin.SMA <- function(DF,tree,...){
   names(temp.osc) <- rename
   temp.orig <- data.frame("TIMESTAMP"=tree.times,tree=tree.vals)
   names(temp.orig) <- rename
-  mm.osc <- MaxMinTreeDaily(temp.osc,tree,...)
+  mm.osc <- MaxMinTreeDaily(temp.osc,tree)
   # Merging:
   x <- mm.osc[ ,2]
   x <- data.frame(x)
