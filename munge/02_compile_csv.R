@@ -14,10 +14,8 @@ no.files <- 0;
 for (folder in target.dirs){
   for (f in dir(folder)) {no.files <- no.files + 1}
 }
-print('FUJI LOOK HERE')
-print(no.files)
 
-#pb <- txtProgressBar(min=0,max=no.files)
+pb <- txtProgressBar(min=0,max=no.files)
 
 reg.exp <- '[^_]{5,6}$'
 df.names <- str_extract(target.dirs,reg.exp)
@@ -45,7 +43,7 @@ for (folder in target.dirs){
   # loop over files within the working directory
   for (f in dir(folder) ) {
     prog <- prog + 1
-    #setTxtProgressBar(pb,prog)
+    setTxtProgressBar(pb,prog)
     target.file <- paste(folder,f,sep='/')
     # reading in the column headers, start by skipping 1
     col.names.obj <- read.csv(file = target.file, skip = 1, header = TRUE) # need to change this to skip 1.
