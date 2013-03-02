@@ -63,17 +63,17 @@ for (folder in target.dirs){
     if (check$Met[cnt]==1){
       colnames(df)[2:ncol(df)] <- paste(colnames(df)[2:ncol(df)],'aws',sep='.')
       output.list[[f]] <- df
-    }else {
-      if (check$TRh[cnt]==1){
-        site.id <- str_extract(df.names[cnt],'.{3}$')
-        colnames(df)[2:ncol(df)] <- paste(colnames(df)[2:ncol(df)],site.id,sep='.')
-        output.list[[f]] <- df
-      }else{
-        colnames(df)[2] <- paste(colnames(df)[2],'.',sep='')
-        site.id <- str_extract(df.names[cnt],'.{3}$')
-        colnames(df)[2:ncol(df)] <- paste(colnames(df)[2:ncol(df)],site.id,sep='')
-        output.list[[f]] <- df
-      }
+    }
+    if (check$TRh[cnt]==1){
+      site.id <- str_extract(df.names[cnt],'.{3}$')
+      colnames(df)[2:ncol(df)] <- paste(colnames(df)[2:ncol(df)],site.id,sep='.')
+      output.list[[f]] <- df
+    }
+    if (check$Den[cnt]==1){
+      colnames(df)[2] <- paste(colnames(df)[2],'.',sep='')
+      site.id <- str_extract(df.names[cnt],'.{3}$')
+      colnames(df)[2:ncol(df)] <- paste(colnames(df)[2:ncol(df)],site.id,sep='')
+      output.list[[f]] <- df
     }
   }
   output.df <- do.call("rbind", output.list)
