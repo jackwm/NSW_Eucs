@@ -80,6 +80,7 @@ for (folder in target.dirs){
   }
   output.df <- do.call("rbind", output.list)
   # drop non-unique rows
+  output.df <- output.df[order(output.df[,1]), ] 
   # I'm worried about this line. There's no record or output of what is dropped.
   output.df <- unique(output.df)
   # clearing out the junk rownames
