@@ -8,7 +8,7 @@ require('lubridate')
 # You must give that function a data frame and tree (as a string) with no NA's within it.
 # plot should be given as either TRUE or FALSE and plots the moving average with the original values
 # n is the interval you are to average over, a reasonable number is 6*24 which is a day
-ZLSMA <- function(DF,tree,n,with.plot,...){
+ZLSMA <- function(DF,tree,n,...){
   args <- list(...)
   if(!is.null(args$trace)){print(match.call()[[1]])}
   if(n%%2==0) n<-n+1

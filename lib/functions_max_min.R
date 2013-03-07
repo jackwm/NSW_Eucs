@@ -12,7 +12,7 @@ MaxMinTreeDaily <- function(dataframe,tree){
   # Calculate the difference in days
   days <- as.numeric(difftime(end,start,units="days"))
   day <- 24*3600 - 10; end <- start + day
-  part_day <- 12*3600; # This represents the hours from one minima, to then find the next maxima.
+  part_day <- 24*3600; # This represents the hours from one minima, to then find the next maxima.
   int.max <- GetTimeIntTree(dataframe,tree,start,end)
   int.min <- GetTimeIntTree(dataframe,tree,start,end)
   max <- max(int.max[,tree]); tmax <- int.max[which.max(int.max[,tree]),"TIMESTAMP"]
