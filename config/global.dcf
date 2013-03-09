@@ -7,3 +7,4 @@ libraries: reshape2, plyr, ggplot2, stringr, lubridate, RSQLite
 as_factors: on
 data_tables: off
 error_vis: off
+fill_missing_obs: on

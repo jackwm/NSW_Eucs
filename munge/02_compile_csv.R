@@ -5,7 +5,7 @@ check <- regexpr("Kanga", dir(target.dir))
 # Checking the folder to see if it has the expected structure
 if(max(check)==-1){
   stop(paste("Expected Folder starting with 'Kanga' None were found in",getwd()))
-  } else {
+} else {
   target.dirs <- paste(target.dir,dir(target.dir)[check>0],sep='/')
 }
 
@@ -51,16 +51,16 @@ for (folder in target.dirs){
     col.names.obj <- read.csv(file = target.file, skip = 1, header = TRUE) # need to change this to skip 1.
     # read the data
     df <- read.csv(file = target.file, skip = 4, header = FALSE,
-                       col.names=names(col.names.obj), 
-                       as.is = TRUE)
+                   col.names=names(col.names.obj), 
+                   as.is = TRUE)
     # if that didn't work, skip 0
     if (names(df)[1]!='TIMESTAMP'){
       col.names.obj <- read.csv(file = target.file,
                                 skip = 0, header = TRUE)
       df <- read.csv(file = target.file, skip = 1, header = FALSE, 
-                         col.names=names(col.names.obj), 
-                         as.is = TRUE)
-      }
+                     col.names=names(col.names.obj), 
+                     as.is = TRUE)
+    }
     df$RECORD <- NULL
     if (check$Met[cnt]==1){
       colnames(df)[2:ncol(df)] <- paste(colnames(df)[2:ncol(df)],'aws',sep='.')
@@ -80,7 +80,7 @@ for (folder in target.dirs){
   }
   output.df <- do.call("rbind", output.list)
   # drop non-unique rows
-  output.df <- output.df[order(output.df[,1]), ] 
+  output.df <- output.df[order(output.df[,1]), ]
   # I'm worried about this line. There's no record or output of what is dropped.
   output.df <- unique(output.df)
   # clearing out the junk rownames
