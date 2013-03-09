@@ -10,6 +10,8 @@ ProjectTemplate package loaded.
 
   ``require('ProjectTemplate')``
 
+To generate the SEI information you can type the following code:
 
+  ``GenerateSEI()``
 
 

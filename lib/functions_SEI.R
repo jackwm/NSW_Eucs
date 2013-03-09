@@ -69,3 +69,10 @@ GardenSEI <- function(SEI.list){
     }
   return(Gardened.list)
 }
+
+GenerateSEI <- function(){
+  dfs <- ls(pattern="Den{1}[[:digit:]]{2}[[:alpha:]]{1}",envir=.GlobalEnv)
+  for(df in dfs){
+    assign(paste(df,'SEI',sep='.'),CalcSEIdf(get(df)),envir=.GlobalEnv)
+  }
+}
