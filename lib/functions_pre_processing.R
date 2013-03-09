@@ -29,14 +29,14 @@ SynthTS <- function(data, obs.int){
 
   ss <- as.POSIXct(ss)
   se <- as.POSIXct(se)
-
+  
+  if (ss > se)
+    stop('Error: start date is after end date')
+  
   synth <- seq(from = ss,
-              to = se,
-              # by = 10*60 # for ten minute observations
-              by = obs.int, # obs.int should be time in seconds
-              #length.out = NULL,
-              #along.with = NULL
-              )
+               to = se, 
+               by = obs.int)
+              
 }
 
 ZeroOrigin <- function(DF){
