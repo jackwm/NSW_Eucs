@@ -12,7 +12,7 @@ MaxMinTreeDaily <- function(dataframe,tree){
   # Calculate the difference in days
   days <- as.numeric(difftime(end,start,units="days"))
   day <- 24*3600 - 10; end <- start + day
-  part_day <- 24*3600; # This represents the hours from one minima, to then find the next maxima.
+  part_day <- 24*3600 - 10; # This represents the hours from one minima, to then find the next maxima.
   int.max <- GetTimeIntTree(dataframe,tree,start,end)
   int.min <- GetTimeIntTree(dataframe,tree,start,end)
   max <- max(int.max[,tree]); tmax <- int.max[which.max(int.max[,tree]),"TIMESTAMP"]
@@ -40,7 +40,50 @@ MaxMinTreeDaily <- function(dataframe,tree){
   print(paste(tree,": Max and min info found for: ",days," days"))
   return(result)
 }
-#a <- MaxMinTreeDaily(temp.osc,tree,start,days)
-# 
-# test <- MaxMinTreeDaily(Sap.All,trees[[1]],"2012-04-20",25)
-# test
+
+MaxMin.SMA <- function(DF,tree,...){
+  args <- list(...)
+  if(!is.null(args$trace)){print(match.call()[[1]])}
+  # Working around non-unique data
+  DF <- unique(DF)
+  #Finding first day and how many full days there are
+  DF <- data.frame(DF[,"TIMESTAMP"],DF[,tree],stringsAsFactors=FALSE)
+  DF <- na.trim(DF); names(DF)<-c("TIMESTAMP",tree)
+  #Creating a vector containing the oscillations
+  rename <- c("TIMESTAMP",tree)
+  osc <- Detrend(DF,tree,6*24,...) #Here we assume we want to average over 6*24 10 min measurments (A day)
+  tree.times <- DF$TIMESTAMP; tree.vals <- DF[,tree]; temp.osc <- data.frame(tree.times,osc)
+  names(temp.osc) <- rename
+  temp.orig <- data.frame("TIMESTAMP"=tree.times,tree=tree.vals)
+  names(temp.orig) <- rename
+  mm.osc <- MaxMinTreeDaily(temp.osc,tree)
+  # Merging:
+  x <- mm.osc[ ,2]
+  x <- data.frame(x)
+  colnames(x) <- 'TIMESTAMP'
+  mm.osc.max <- merge(x, temp.orig,
+                      by = "TIMESTAMP",
+                      all.x = TRUE, all.y = FALSE)
+  
+  y <- mm.osc[ ,4]
+  y <- data.frame(y)
+  colnames(y) <- 'TIMESTAMP'
+  mm.osc.min <- merge(y, temp.orig,
+                      by = "TIMESTAMP",
+                      all = FALSE)
+  
+  # If you want Plotting
+  if(!is.null(args$with.plot) && args$with.plot=='SMA'){
+    plot(temp.orig,type='l',
+         xlab="Date",ylab="Measurment (mm)",
+         main=tree)
+    points(mm.osc.max[,1],mm.osc.max[,2],col='red',pch=2)
+    points(mm.osc.min[,1],mm.osc.min[,2],col='red',pch=1)
+  }
+  
+  min.row <- min(nrow(mm.osc.max),nrow(mm.osc.min))
+  result <- data.frame(mm.osc.max[1:min.row,],mm.osc.min[1:min.row,])
+  names(result) <- c(tree.names[tree,"tmax"],tree.names[tree,"max"],
+                     tree.names[tree,"tmin"],tree.names[tree,"min"])
+  return(result)
+}

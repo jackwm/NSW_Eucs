@@ -2,7 +2,7 @@
 # In case we still need to fill the missing observations with NAs
 
 
-if (FALSE){
+if (TRUE){
 # grab the dendrometer dataframes
 dfs <- ls(pattern="Den{1}")
 
@@ -11,4 +11,5 @@ for (i in dfs){
   x <- MergeSynth(DF=get(i), obs.int=60*10)
   assign(i, x)
 }
+rm(dfs,i,x)
 }

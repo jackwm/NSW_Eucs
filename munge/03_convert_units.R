@@ -12,4 +12,4 @@ for (i in dfs){
 }
 
 # Tidy up
-rm(x)
+rm(x,i,dfs)
