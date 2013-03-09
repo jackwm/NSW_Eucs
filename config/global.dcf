@@ -3,7 +3,7 @@ cache_loading: on
 munging: on
 logging: off
 load_libraries: on
-libraries: reshape2, plyr, ggplot2, stringr, lubridate
+libraries: reshape2, plyr, ggplot2, stringr, lubridate, RSQLite
 as_factors: on
 data_tables: off
-error_vis: on
+error_vis: off
