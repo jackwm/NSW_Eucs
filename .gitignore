@@ -6,5 +6,7 @@
 data
 csv
 csv/*
+db
+db/*
 NSW_Eucs.Rproj
 .DS_Store

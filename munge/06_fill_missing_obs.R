@@ -4,7 +4,7 @@
 
 if (TRUE){
 # grab the dendrometer dataframes
-dfs <- ls(pattern="Den{1}")
+dfs <- ls(pattern="Den{1}[[:digit:]]{2}[[:alpha:]]{1}$")
 
 # apply conversion function to each of those
 for (i in dfs){

@@ -71,8 +71,12 @@ GardenSEI <- function(SEI.list){
 }
 
 GenerateSEI <- function(){
-  dfs <- ls(pattern="Den{1}[[:digit:]]{2}[[:alpha:]]{1}",envir=.GlobalEnv)
+  dfs <- ls(pattern="Den{1}[[:digit:]]{2}[[:alpha:]]{1}$",envir=.GlobalEnv)
   for(df in dfs){
-    assign(paste(df,'SEI',sep='.'),CalcSEIdf(get(df)),envir=.GlobalEnv)
+    sei.name <- paste(df,'SEI',sep='.')
+    assign(sei.name,CalcSEIdf(get(df)),envir=.GlobalEnv)
+    cache(sei.name)
+    write.csv(get(sei.name),paste('csv/',sei.name,'.csv',sep=''),row.names=FALSE)
   }
+  
 }
