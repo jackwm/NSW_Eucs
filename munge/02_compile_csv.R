@@ -4,7 +4,7 @@ check <- regexpr("Kanga", dir(target.dir))
 
 # Checking the folder to see if it has the expected structure
 if(max(check)==-1){
-  print(paste("Expected Folder starting with 'Kanga' None were found in",getwd()))
+  stop(paste("Expected Folder starting with 'Kanga' None were found in",getwd()))
   } else {
   target.dirs <- paste(target.dir,dir(target.dir)[check>0],sep='/')
 }
@@ -24,7 +24,7 @@ check <- list()
 check[['Den']] <- regexpr(".{6}(Den).{2,3}",dir(target.dir)) # three sites with den
 check[['Met']] <- regexpr(".{6}(Met).{2,3}",dir(target.dir)) # one site with Met
 check[['TRh']] <- regexpr(".{6}(TRh).{2,3}",dir(target.dir)) # four sites with TRh
-check[['Sap']] <- regexpr(".{6}(Sap).{2,3}",dir(target.dir)) # four sites with TRh
+check[['Sap']] <- regexpr(".{6}(Sap).{2,3}",dir(target.dir)) 
 
 if (!exists('df.list')) {df.list <- list()}
 prog <- 0
